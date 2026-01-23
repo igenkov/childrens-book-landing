@@ -1,239 +1,374 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
+import { useState } from 'react'
+import Image from 'next/image'
 
 export default function Home() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: ''
-  });
-  const [submitted, setSubmitted] = useState(false);
+  })
+  const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [openFaq, setOpenFaq] = useState(null)
+  const [selectedPackage, setSelectedPackage] = useState('single')
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    // Save to localStorage
-    const leads = JSON.parse(localStorage.getItem('leads') || '[]');
-    leads.push({
-      ...formData,
-      timestamp: new Date().toISOString()
-    });
-    localStorage.setItem('leads', JSON.stringify(leads));
-    
-    // Show thank you message
-    setSubmitted(true);
-    
-    // Reset form after 3 seconds
+    e.preventDefault()
+    setLoading(true)
+
+    // Simulate form submission - can be replaced with actual API call
     setTimeout(() => {
-      setFormData({ name: '', email: '', phone: '' });
-      setSubmitted(false);
-    }, 3000);
-  };
+      // TODO: Replace with secure backend API call to store form data
+      // SECURITY: Removed console.log to prevent sensitive data exposure
+      // SECURITY: Removed localStorage storage to prevent PII storage in browser
+      setSubmitted(true)
+      setLoading(false)
+    }, 1000)
+  }
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
-    });
-  };
+    })
+  }
+
+  if (submitted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-peach-50 to-coral-50 flex items-center justify-center px-4 py-12">
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="bg-white rounded-3xl shadow-2xl p-10 md:p-16 border border-coral-100">
+            <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
+              <svg className="w-12 h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+              Благодарим Ви! 🎉
+            </h2>
+            <p className="text-xl text-gray-600 mb-10 leading-relaxed">
+              Вашата заявка е получена успешно. Ще се свържем с Вас скоро с подробности за книгата.
+            </p>
+            <div className="bg-peach-50 rounded-2xl p-8 mb-8 border border-peach-100">
+              <p className="text-gray-700 text-lg leading-relaxed">
+                Проверете имейла си за потвърждение. Ако не го виждате, погледнете в спам папката.
+              </p>
+            </div>
+            <button
+              onClick={() => setSubmitted(false)}
+              className="text-peach-600 hover:text-peach-700 font-semibold text-lg transition-colors duration-200"
+            >
+              ← Назад към началната страница
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
+    <main className="min-h-screen bg-gradient-to-b from-peach-50 via-sand-50 to-sage-50">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-purple-100 via-pink-50 to-orange-50 py-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            {/* Left Character */}
-            <div className="hidden md:block w-1/4">
-              <div className="w-40 h-40 bg-purple-200 rounded-full flex items-center justify-center">
-                <span className="text-4xl">🦊</span>
+      <section className="relative overflow-hidden pt-16 md:pt-24 pb-20 md:pb-32">
+        {/* Floating Character - Left Side (Desktop) */}
+        <div className="hidden lg:block absolute left-0 top-1/4 w-48 xl:w-64 opacity-90 pointer-events-none">
+          <Image
+            src="/images/character-hero-left.png"
+            alt="Персонаж"
+            width={256}
+            height={256}
+            className="object-contain"
+            unoptimized
+          />
+        </div>
+
+        {/* Floating Character - Right Side (Desktop) */}
+        <div className="hidden lg:block absolute right-0 top-1/3 w-48 xl:w-64 opacity-90 pointer-events-none">
+          <Image
+            src="/images/character-hero-right.png"
+            alt="Персонаж"
+            width={256}
+            height={256}
+            className="object-contain"
+            unoptimized
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-8 leading-tight tracking-tight">
+              Вълшебна История за<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-peach-600 to-coral-600 inline-block mt-2">
+                Приятелство и Доброта
+              </span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+              Детска книга, която учи на ценности чрез приключения и топли илюстрации
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+              <div className="bg-white rounded-full px-8 py-4 shadow-md hover:shadow-lg transition-shadow duration-200 border border-peach-100">
+                <span className="text-peach-600 font-semibold text-lg">👶 За 3-6 години</span>
+              </div>
+              <div className="bg-white rounded-full px-8 py-4 shadow-md hover:shadow-lg transition-shadow duration-200 border border-coral-100">
+                <span className="text-coral-600 font-semibold text-lg">🇧🇬 На български</span>
+              </div>
+              <div className="bg-white rounded-full px-8 py-4 shadow-md hover:shadow-lg transition-shadow duration-200 border border-sage-100">
+                <span className="text-sage-600 font-semibold text-lg">❤️ Написана с любов</span>
               </div>
             </div>
+          </div>
 
-            {/* Hero Content */}
-            <div className="flex-1 text-center">
-              <div className="space-y-6">
-                <h1 className="text-4xl md:text-6xl font-bold text-purple-900 leading-tight">
-                  Вълшебна История за<br />
-                  Приятелство и Доброта
-                </h1>
-                <p className="text-xl md:text-2xl text-gray-700">
-                  Детска книга, която учи на ценности чрез приключения и топли илюстрации
-                </p>
-                <div className="flex flex-wrap justify-center gap-4 text-lg">
-                  <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
-                    <span>👶</span>
-                    <span>За 3-6 години</span>
-                  </div>
-                  <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
-                    <span>🇧🇬</span>
-                    <span>На български</span>
-                  </div>
-                  <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
-                    <span>❤️</span>
-                    <span>С любов написана</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Book Cover */}
-              <div className="mt-12">
-                <div className="w-64 h-80 mx-auto bg-gradient-to-br from-purple-300 to-pink-300 rounded-lg shadow-2xl flex items-center justify-center">
-                  <div className="text-center text-white p-8">
-                    <div className="text-6xl mb-4">📚</div>
-                    <p className="text-sm">Поставете корицата на книгата тук</p>
-                    <p className="text-xs mt-2 opacity-75">/images/book-cover.jpg</p>
-                  </div>
-                </div>
-              </div>
-
-              <a 
-                href="#rezervacia" 
-                className="inline-block mt-8 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-lg transition-all transform hover:scale-105"
-              >
-                Запази Своята Книга 📚
-              </a>
+          {/* Book Cover */}
+          <div className="max-w-lg mx-auto mb-16">
+            <div className="relative aspect-[3/4] rounded-3xl shadow-2xl overflow-hidden bg-gray-100 hover:shadow-3xl transition-shadow duration-300 ring-1 ring-gray-200">
+              <Image
+                src="/images/book-cover.jpg"
+                alt="Корица на книгата"
+                fill
+                className="object-cover"
+                priority
+                unoptimized
+              />
             </div>
+          </div>
 
-            {/* Right Character */}
-            <div className="hidden md:block w-1/4">
-              <div className="w-40 h-40 bg-orange-200 rounded-full flex items-center justify-center">
-                <span className="text-4xl">🐦</span>
-              </div>
-            </div>
+          {/* CTA Button */}
+          <div className="text-center">
+            <a
+              href="#rezervacia"
+              className="inline-block bg-gradient-to-r from-peach-600 to-coral-600 text-white text-xl md:text-2xl font-bold px-12 md:px-16 py-5 md:py-6 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 hover:from-peach-700 hover:to-coral-700"
+            >
+              Запази Своята Книга 📚
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-4">
-              <div className="w-32 h-32 bg-purple-200 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-5xl">✨</span>
-              </div>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-purple-900 mb-4">
+      {/* What Makes It Special Section */}
+      <section className="py-20 md:py-32 bg-white relative">
+        {/* Decorative Character Image */}
+        <div className="absolute top-10 right-4 md:right-10 w-32 md:w-48 opacity-80 pointer-events-none">
+          <Image
+            src="/images/character-benefits.png"
+            alt="Персонаж"
+            width={192}
+            height={192}
+            className="object-contain"
+            unoptimized
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
               Защо Тази Книга е Специална?
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Повече от история - това е начин да споделите ценности с вашето дете
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                icon: '🤝',
-                title: 'Учи на Приятелство',
-                description: 'Чрез топли истории вашето дете ще научи истинската стойност на приятелството и взаимопомощта'
-              },
-              {
-                icon: '🎨',
-                title: 'Красиви Илюстрации',
-                description: 'Всяка страница е пълна с цветни, приветливи рисунки, които ще запленят детското въображение'
-              },
-              {
-                icon: '💝',
-                title: 'Позитивни Ценности',
-                description: 'История, която насърчава добротата, емпатията и желанието да помагаме на другите'
-              },
-              {
-                icon: '🌟',
-                title: 'Емоционално Развитие',
-                description: 'Засяга важни моменти от емоционалното развитие на детето'
-              }
-            ].map((benefit, index) => (
-              <div key={index} className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl shadow-md hover:shadow-xl transition-shadow">
-                <div className="text-5xl mb-4">{benefit.icon}</div>
-                <h3 className="text-xl font-bold text-purple-900 mb-3">{benefit.title}</h3>
-                <p className="text-gray-700">{benefit.description}</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 lg:gap-16">
+            <div className="text-center group">
+              <div className="w-24 h-24 bg-white rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300 overflow-hidden relative border-2 border-gray-100">
+                <Image
+                  src="/images/icon-friendship.png"
+                  alt="Приятелство"
+                  width={80}
+                  height={80}
+                  className="object-contain"
+                  unoptimized
+                />
               </div>
-            ))}
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-5">Учи на Приятелство</h3>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                Чрез топли истории вашето дете ще научи истинската стойност на приятелството и взаимопомощта
+              </p>
+            </div>
+
+            <div className="text-center group">
+              <div className="w-24 h-24 bg-white rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300 overflow-hidden relative border-2 border-gray-100">
+                <Image
+                  src="/images/icon-illustrations.png"
+                  alt="Илюстрации"
+                  width={80}
+                  height={80}
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-5">Красиви Илюстрации</h3>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                Всяка страница е пълна с цветни, приветливи рисунки, които ще запленят детското въображение
+              </p>
+            </div>
+
+            <div className="text-center group">
+              <div className="w-24 h-24 bg-white rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300 overflow-hidden relative border-2 border-gray-100">
+                <Image
+                  src="/images/icon-values.png"
+                  alt="Ценности"
+                  width={80}
+                  height={80}
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-5">Позитивни Ценности</h3>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                История, която насърчава добротата, емпатията и желанието да помагаме на другите
+              </p>
+            </div>
+
+            <div className="text-center group">
+              <div className="w-24 h-24 bg-white rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300 overflow-hidden relative border-2 border-gray-100">
+                <Image
+                  src="/images/icon-emotional.png"
+                  alt="Емоционално развитие"
+                  width={80}
+                  height={80}
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-5">Емоционално Развитие</h3>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                Засяга важни моменти от емоционалното развитие на детето
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Preview Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-purple-50 to-pink-50">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-4">
-              <div className="w-32 h-32 bg-orange-200 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-5xl">📖</span>
-              </div>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-purple-900 mb-4">
+      {/* Book Preview Section */}
+      <section className="py-20 md:py-32 bg-gradient-to-b from-peach-50 to-coral-50 relative">
+        {/* Decorative Character - Left */}
+        <div className="hidden md:block absolute left-4 lg:left-10 top-1/3 w-40 lg:w-56 opacity-70 pointer-events-none">
+          <Image
+            src="/images/character-preview-left.png"
+            alt="Персонаж"
+            width={224}
+            height={224}
+            className="object-contain"
+            unoptimized
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
               Надникнете в Книгата
             </h2>
-            <p className="text-xl text-gray-600">
-              Вижте примери от страниците на нашата приказка
+            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Вижте примери от страниците на нашата история
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                page: 1,
-                text: '"Докато преминаваше край горското поточе, Лисан забеляза нещо необичайно. До водата седеше някой, когото никога не беше виждал преди."'
-              },
-              {
-                page: 2,
-                text: '"- Това наистина е сериозно. Трябва да разберем защо водата изчезва... Имам идея! Ако полетя високо в небето, мога да видя откъде идва водата и защо изчезва по пътя."'
-              },
-              {
-                page: 3,
-                text: '"Лисан искаше да помогне, но не знаеше как. Беше прекарал целия си живот сред храсти и дървета и не разбираше много от води и езера."'
-              },
-              {
-                page: 4,
-                text: '"На това магично място където пътища от различни светове се срещаха, гората се докосваше до златистите дюни, а планинските скали се редуваха с цветни дървета."'
-              }
-            ].map((preview, index) => (
-              <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow">
-                <div className="h-64 bg-gradient-to-br from-purple-200 to-pink-200 flex items-center justify-center">
-                  <div className="text-center text-purple-900 p-8">
-                    <div className="text-6xl mb-4">📄</div>
-                    <p className="text-sm">Страница {preview.page}</p>
-                    <p className="text-xs mt-2 opacity-75">/images/page-{preview.page}.jpg</p>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <p className="text-gray-700 italic">{preview.text}</p>
-                </div>
+          <div className="grid md:grid-cols-2 gap-10 md:gap-12 max-w-6xl mx-auto">
+            {/* Page Preview 1 */}
+            <div className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300 border border-gray-100">
+              <div className="aspect-[4/3] relative bg-gray-100">
+                <Image
+                  src="/images/page-1.jpg"
+                  alt="Страница 1"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
               </div>
-            ))}
+              <div className="p-8">
+                <p className="text-gray-600 italic text-lg leading-relaxed">
+                  "Докато преминаваше край горското поточе, Лисан забеляза нещо необичайно. До водата седеше някой, когото никога не беше виждал преди."
+                </p>
+              </div>
+            </div>
+
+            {/* Page Preview 2 */}
+            <div className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300 border border-gray-100">
+              <div className="aspect-[4/3] relative bg-gray-100">
+                <Image
+                  src="/images/page-2.jpg"
+                  alt="Страница 2"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
+              <div className="p-8">
+                <p className="text-gray-600 italic text-lg leading-relaxed">
+                  "- Това наистина е сериозно. Трябва да разберем защо водата изчезва... Имам идея! Ако полетя високо в небето, мога да видя откъде идва водата и защо изчезва по пътя."
+                </p>
+              </div>
+            </div>
+
+            {/* Page Preview 3 */}
+            <div className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300 border border-gray-100">
+              <div className="aspect-[4/3] relative bg-gray-100">
+                <Image
+                  src="/images/page-3.jpg"
+                  alt="Страница 3"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
+              <div className="p-8">
+                <p className="text-gray-600 italic text-lg leading-relaxed">
+                  "Лисан искаше да помогне, но не знаеше как. Беше прекарал целия си живот сред храсти и дървета и не разбираше много от води и езера."
+                </p>
+              </div>
+            </div>
+
+            {/* Page Preview 4 */}
+            <div className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300 border border-gray-100">
+              <div className="aspect-[4/3] relative bg-gray-100">
+                <Image
+                  src="/images/page-4.jpg"
+                  alt="Страница 4"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
+              <div className="p-8">
+                <p className="text-gray-600 italic text-lg leading-relaxed">
+                  "На това магично място където пътища от различни светове се срещаха, гората се докосваше до златистите дюни, а планинските скали се редуваха с цветни дървета."
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Author Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-4xl md:text-5xl font-bold text-purple-900 mb-12 text-center">
-            За Автора
-          </h2>
-          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 md:p-12 shadow-lg">
-            <div className="flex flex-col md:flex-row gap-8 items-center">
-              <div className="w-48 h-48 bg-purple-200 rounded-full flex items-center justify-center flex-shrink-0">
-                <div className="text-center">
-                  <div className="text-6xl mb-2">👤</div>
-                  <p className="text-xs text-purple-900">Вашата снимка тук</p>
-                  <p className="text-xs text-purple-700 mt-1">/images/author.jpg</p>
+      <section className="py-20 md:py-32 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+            <div className="order-2 md:order-1">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                За Автора
+              </h2>
+              <p className="text-xl text-gray-600 mb-6 leading-relaxed">
+                Здравейте! Аз съм [Вашето Име], и тази книга е резултат от моята любов към децата и вярата, че добрите истории могат да формират характер.
+              </p>
+              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                Историята за Лисан и неговите приключения е вдъхновена от [вашата история - защо написахте книгата]. Вярвам, че всяко дете заслужава да расте с истории, които го учат на доброта, емпатия и приятелство.
+              </p>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                С тази книга искам да помогна на родителите да споделят важни ценности с децата си по забавен и ангажиращ начин.
+              </p>
+            </div>
+            <div className="order-1 md:order-2">
+              <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl bg-gray-100">
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-peach-100 to-coral-100">
+                  <div className="text-center p-8">
+                    <div className="text-6xl mb-4">👤</div>
+                    <p className="text-gray-600 text-lg">Вашата снимка тук</p>
+                    <p className="text-gray-500 text-sm mt-2">(Качете /images/author.jpg)</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex-1 text-center md:text-left">
-                <p className="text-lg text-gray-700 leading-relaxed mb-4">
-                  Здравейте! Аз съм [Вашето Име], и тази книга е резултат от моята любов към децата и вярата, че добрите истории могат да формират характер.
-                </p>
-                <p className="text-lg text-gray-700 leading-relaxed mb-4">
-                  Историята за Лисан и неговите приключения е вдъхновена от [вашата история - защо написахте книгата]. Вярвам, че всяко дете заслужава да расте с истории, които го учат на доброта, емпатия и приятелство.
-                </p>
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  С тази книга искам да помогна на родителите да споделят важни ценности с децата си по забавен и ангажиращ начин.
-                </p>
               </div>
             </div>
           </div>
@@ -241,104 +376,180 @@ export default function Home() {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-purple-50 to-pink-50">
-        <div className="container mx-auto max-w-6xl">
+      <section className="py-20 md:py-32 bg-gradient-to-b from-peach-50 to-sand-50 relative">
+        {/* Decorative Character */}
+        <div className="hidden lg:block absolute right-10 top-20 w-48 opacity-75 pointer-events-none">
+          <Image
+            src="/images/character-pricing.png"
+            alt="Персонаж"
+            width={192}
+            height={192}
+            className="object-contain"
+            unoptimized
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-block mb-4">
-              <div className="w-32 h-32 bg-orange-200 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-5xl">💰</span>
-              </div>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-purple-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
               Изберете Вашия Пакет
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Специални оферти за семейства и за подаръци
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Една Книга',
-                subtitle: 'За вашето дете',
-                price: '29',
-                originalPrice: null,
-                savings: null,
-                features: [
-                  '✓ Пълноцветна книга',
-                  '✓ Високо качество',
-                  '✓ Безплатна доставка'
-                ],
-                popular: false
-              },
-              {
-                name: 'Две Книги',
-                subtitle: 'За двама приятели',
-                price: '49',
-                originalPrice: '58',
-                savings: 'Спестявате 9 лв!',
-                features: [
-                  '✓ 2 пълноцветни книги',
-                  '✓ Високо качество',
-                  '✓ Безплатна доставка',
-                  '✓ Бонус стикери'
-                ],
-                popular: true
-              },
-              {
-                name: 'Три Книги',
-                subtitle: 'Най-добра стойност',
-                price: '69',
-                originalPrice: '87',
-                savings: 'Спестявате 18 лв!',
-                features: [
-                  '✓ 3 пълноцветни книги',
-                  '✓ Високо качество',
-                  '✓ Безплатна доставка',
-                  '✓ Бонус стикери',
-                  '✓ Активности PDF'
-                ],
-                popular: false
-              }
-            ].map((pkg, index) => (
-              <div key={index} className={`bg-white rounded-2xl shadow-lg overflow-hidden ${pkg.popular ? 'ring-4 ring-purple-500 transform scale-105' : ''}`}>
-                {pkg.popular && (
-                  <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center py-2 font-semibold">
-                    ✓ ПОПУЛЯРЕН
-                  </div>
-                )}
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold text-purple-900 mb-2">{pkg.name}</h3>
-                  <p className="text-gray-600 mb-6">{pkg.subtitle}</p>
-                  <div className="mb-6">
-                    {pkg.originalPrice && (
-                      <div className="text-gray-400 line-through text-xl mb-1">{pkg.originalPrice} лв</div>
-                    )}
-                    <div className="text-5xl font-bold text-purple-900 mb-2">
-                      {pkg.price} <span className="text-2xl">лв</span>
-                    </div>
-                    {pkg.savings && (
-                      <div className="text-green-600 font-semibold">{pkg.savings}</div>
-                    )}
-                    {!pkg.originalPrice && (
-                      <div className="text-gray-600">+ безплатна доставка</div>
-                    )}
-                  </div>
-                  <ul className="space-y-3 mb-8">
-                    {pkg.features.map((feature, fIndex) => (
-                      <li key={fIndex} className="text-gray-700">{feature}</li>
-                    ))}
-                  </ul>
-                </div>
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Single Book */}
+            <div
+              onClick={() => setSelectedPackage('single')}
+              className={`bg-white rounded-3xl p-8 md:p-10 shadow-xl cursor-pointer transition-all duration-300 ${
+                selectedPackage === 'single' ? 'ring-4 ring-peach-500 scale-105' : 'hover:shadow-2xl'
+              }`}
+            >
+              <div className="text-center mb-6">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                  Една Книга
+                </h3>
+                <p className="text-gray-600">За вашето дете</p>
               </div>
-            ))}
+              <div className="text-center mb-8">
+                <div className="text-5xl md:text-6xl font-bold text-peach-600 mb-2">
+                  29 лв
+                </div>
+                <p className="text-gray-500">+ безплатна доставка</p>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start gap-3">
+                  <span className="text-green-500 text-xl mt-1">✓</span>
+                  <span className="text-gray-700">Пълноцветна книга</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-500 text-xl mt-1">✓</span>
+                  <span className="text-gray-700">Високо качество</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-500 text-xl mt-1">✓</span>
+                  <span className="text-gray-700">Безплатна доставка</span>
+                </li>
+              </ul>
+              {selectedPackage === 'single' && (
+                <div className="absolute top-4 right-4">
+                  <div className="bg-peach-500 text-white rounded-full w-8 h-8 flex items-center justify-center">
+                    <span className="text-lg">✓</span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* 2 Books Bundle - POPULAR */}
+            <div
+              onClick={() => setSelectedPackage('double')}
+              className={`bg-white rounded-3xl p-8 md:p-10 shadow-xl cursor-pointer transition-all duration-300 relative ${
+                selectedPackage === 'double' ? 'ring-4 ring-coral-500 scale-105' : 'hover:shadow-2xl'
+              }`}
+            >
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-gradient-to-r from-coral-500 to-peach-500 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
+                  ПОПУЛЯРЕН
+                </span>
+              </div>
+              <div className="text-center mb-6 mt-4">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                  Две Книги
+                </h3>
+                <p className="text-gray-600">За двама приятели</p>
+              </div>
+              <div className="text-center mb-8">
+                <div className="text-sm text-gray-500 line-through mb-1">58 лв</div>
+                <div className="text-5xl md:text-6xl font-bold text-coral-600 mb-2">
+                  49 лв
+                </div>
+                <p className="text-green-600 font-semibold">Спестявате 9 лв!</p>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start gap-3">
+                  <span className="text-green-500 text-xl mt-1">✓</span>
+                  <span className="text-gray-700">2 пълноцветни книги</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-500 text-xl mt-1">✓</span>
+                  <span className="text-gray-700">Високо качество</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-500 text-xl mt-1">✓</span>
+                  <span className="text-gray-700">Безплатна доставка</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-500 text-xl mt-1">✓</span>
+                  <span className="text-gray-700">Бонус стикери</span>
+                </li>
+              </ul>
+              {selectedPackage === 'double' && (
+                <div className="absolute top-4 right-4">
+                  <div className="bg-coral-500 text-white rounded-full w-8 h-8 flex items-center justify-center">
+                    <span className="text-lg">✓</span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* 3 Books Bundle - BEST VALUE */}
+            <div
+              onClick={() => setSelectedPackage('triple')}
+              className={`bg-white rounded-3xl p-8 md:p-10 shadow-xl cursor-pointer transition-all duration-300 ${
+                selectedPackage === 'triple' ? 'ring-4 ring-sage-500 scale-105' : 'hover:shadow-2xl'
+              }`}
+            >
+              <div className="text-center mb-6">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                  Три Книги
+                </h3>
+                <p className="text-gray-600">Най-добра стойност</p>
+              </div>
+              <div className="text-center mb-8">
+                <div className="text-sm text-gray-500 line-through mb-1">87 лв</div>
+                <div className="text-5xl md:text-6xl font-bold text-sage-600 mb-2">
+                  69 лв
+                </div>
+                <p className="text-green-600 font-semibold">Спестявате 18 лв!</p>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start gap-3">
+                  <span className="text-green-500 text-xl mt-1">✓</span>
+                  <span className="text-gray-700">3 пълноцветни книги</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-500 text-xl mt-1">✓</span>
+                  <span className="text-gray-700">Високо качество</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-500 text-xl mt-1">✓</span>
+                  <span className="text-gray-700">Безплатна доставка</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-500 text-xl mt-1">✓</span>
+                  <span className="text-gray-700">Бонус стикери</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-500 text-xl mt-1">✓</span>
+                  <span className="text-gray-700">Активности PDF</span>
+                </li>
+              </ul>
+              {selectedPackage === 'triple' && (
+                <div className="absolute top-4 right-4">
+                  <div className="bg-sage-500 text-white rounded-full w-8 h-8 flex items-center justify-center">
+                    <span className="text-lg">✓</span>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="text-center mt-12">
-            <a 
-              href="#rezervacia" 
-              className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-12 py-4 rounded-full text-xl font-semibold hover:shadow-lg transition-all transform hover:scale-105"
+            <a
+              href="#rezervacia"
+              className="inline-block bg-gradient-to-r from-peach-600 to-coral-600 text-white text-xl md:text-2xl font-bold px-12 md:px-16 py-5 md:py-6 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 hover:from-peach-700 hover:to-coral-700"
             >
               Продължи към Поръчка →
             </a>
@@ -346,206 +557,309 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-4">
-              <div className="w-32 h-32 bg-purple-200 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-5xl">💬</span>
-              </div>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-purple-900 mb-4">
-              Какво Казват Родителите
-            </h2>
-          </div>
+      {/* Social Proof / Testimonials Section */}
+      <section className="py-20 md:py-32 bg-white relative">
+        {/* Decorative Character */}
+        <div className="hidden md:block absolute left-8 top-1/2 w-40 opacity-70 pointer-events-none">
+          <Image
+            src="/images/character-testimonials.png"
+            alt="Персонаж"
+            width={160}
+            height={160}
+            className="object-contain"
+            unoptimized
+          />
+        </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                stars: 5,
-                text: '"Детето ми обожава тази книга! Всяка вечер иска да я чета отново. Историята е толкова мила и учи на важни ценности."',
-                author: 'Мария, мама на 4-годишна'
-              },
-              {
-                stars: 5,
-                text: '"Прекрасна книга с красиви илюстрации. След като я прочетохме, дъщеря ми започна да споделя играчките си с приятелите."',
-                author: 'Петър, баща на 5-годишна'
-              },
-              {
-                stars: 5,
-                text: '"Най-накрая българска детска книга с модерни илюстрации и смислена история! Синът ми я обожава."',
-                author: 'Елена, мама на 6-годишен'
-              }
-            ].map((testimonial, index) => (
-              <div key={index} className="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl shadow-md">
-                <div className="text-yellow-500 text-2xl mb-4">
-                  {'⭐'.repeat(testimonial.stars)}
-                </div>
-                <p className="text-gray-700 mb-6 italic">{testimonial.text}</p>
-                <p className="text-purple-900 font-semibold">{testimonial.author}</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-20 leading-tight">
+            Какво Казват Родителите
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8 md:gap-10">
+            <div className="bg-peach-50 rounded-3xl p-10 border border-peach-100 hover:shadow-lg transition-shadow duration-300">
+              <div className="flex gap-1 mb-6">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className="text-yellow-400 text-2xl">⭐</span>
+                ))}
               </div>
-            ))}
+              <p className="text-gray-700 mb-8 leading-relaxed text-lg">
+                "Детето ми обожава тази книга! Всяка вечер иска да я чета отново. Историята е толкова мила и учи на важни ценности."
+              </p>
+              <p className="font-semibold text-gray-900 text-lg">Мария, мама на 4-годишна</p>
+            </div>
+
+            <div className="bg-coral-50 rounded-3xl p-10 border border-coral-100 hover:shadow-lg transition-shadow duration-300">
+              <div className="flex gap-1 mb-6">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className="text-yellow-400 text-2xl">⭐</span>
+                ))}
+              </div>
+              <p className="text-gray-700 mb-8 leading-relaxed text-lg">
+                "Прекрасна книга с красиви илюстрации. След като я прочетохме, дъщеря ми започна да споделя играчките си с приятелите."
+              </p>
+              <p className="font-semibold text-gray-900 text-lg">Петър, баща на 5-годишна</p>
+            </div>
+
+            <div className="bg-sand-50 rounded-3xl p-10 border border-sand-100 hover:shadow-lg transition-shadow duration-300">
+              <div className="flex gap-1 mb-6">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className="text-yellow-400 text-2xl">⭐</span>
+                ))}
+              </div>
+              <p className="text-gray-700 mb-8 leading-relaxed text-lg">
+                "Най-накрая българска детска книга с модерни илюстрации и смислена история! Синът ми я обожава."
+              </p>
+              <p className="font-semibold text-gray-900 text-lg">Елена, мама на 6-годишен</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-purple-50 to-pink-50">
-        <div className="container mx-auto max-w-4xl">
+      <section className="py-20 md:py-32 bg-gradient-to-b from-sand-50 to-peach-50 relative">
+        {/* Decorative Character */}
+        <div className="hidden lg:block absolute right-8 bottom-20 w-48 opacity-75 pointer-events-none">
+          <Image
+            src="/images/character-faq.png"
+            alt="Персонаж"
+            width={192}
+            height={192}
+            className="object-contain"
+            unoptimized
+          />
+        </div>
+
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-block mb-4">
-              <div className="w-32 h-32 bg-orange-200 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-5xl">❓</span>
-              </div>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-purple-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
               Често Задавани Въпроси
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-gray-600 leading-relaxed">
               Отговори на най-честите въпроси на родителите
             </p>
           </div>
 
           <div className="space-y-4">
-            {[
-              {
-                q: 'За каква възраст е подходяща книгата?',
-                a: 'Книгата е специално създадена за деца на възраст 3-6 години. Историята и илюстрациите са адаптирани за това възрастово ниво.'
-              },
-              {
-                q: 'Кога ще получа книгата?',
-                a: 'След потвърждение на поръчката, книгата ще бъде изпратена в рамките на 3-5 работни дни. Доставката отнема допълнително 2-3 дни.'
-              },
-              {
-                q: 'В какъв формат е книгата?',
-                a: 'Книгата е печатна, с твърда корица, пълноцветни илюстрации на висококачествена хартия. Формат А4, около 40 страници.'
-              },
-              {
-                q: 'Мога ли да я поръчам като подарък?',
-                a: 'Разбира се! При поръчка можете да посочите адрес за доставка, различен от вашия, и да добавите поздравително съобщение.'
-              },
-              {
-                q: 'Какъв е начинът на плащане?',
-                a: 'Приемаме плащания с банков превод, карта или наложен платеж при доставка.'
-              }
-            ].map((faq, index) => (
-              <details key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
-                <summary className="px-6 py-4 cursor-pointer font-semibold text-purple-900 hover:bg-purple-50 transition-colors">
-                  {faq.q}
-                </summary>
-                <div className="px-6 py-4 bg-purple-50 text-gray-700">
-                  {faq.a}
+            {/* FAQ 1 */}
+            <div className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100">
+              <button
+                onClick={() => setOpenFaq(openFaq === 1 ? null : 1)}
+                className="w-full text-left p-6 md:p-8 flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+              >
+                <span className="text-xl md:text-2xl font-bold text-gray-900 pr-8">
+                  За каква възраст е подходяща книгата?
+                </span>
+                <span className="text-peach-600 text-2xl flex-shrink-0">
+                  {openFaq === 1 ? '−' : '+'}
+                </span>
+              </button>
+              {openFaq === 1 && (
+                <div className="px-6 md:px-8 pb-6 md:pb-8">
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    Книгата е специално създадена за деца на възраст от 3 до 6 години. Историята е написана с език и сюжет, подходящи за това възрастово ниво, а илюстрациите са цветни и ангажиращи за малките читатели.
+                  </p>
                 </div>
-              </details>
-            ))}
+              )}
+            </div>
+
+            {/* FAQ 2 */}
+            <div className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100">
+              <button
+                onClick={() => setOpenFaq(openFaq === 2 ? null : 2)}
+                className="w-full text-left p-6 md:p-8 flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+              >
+                <span className="text-xl md:text-2xl font-bold text-gray-900 pr-8">
+                  Кога ще получа книгата?
+                </span>
+                <span className="text-peach-600 text-2xl flex-shrink-0">
+                  {openFaq === 2 ? '−' : '+'}
+                </span>
+              </button>
+              {openFaq === 2 && (
+                <div className="px-6 md:px-8 pb-6 md:pb-8">
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    Понастоящем приемаме предварителни поръчки. Очакваме книгата да бъде готова и изпратена през [месец/дата]. Ще ви уведомим по имейл веднага щом книгата е готова за изпращане. Доставката обикновено отнема 2-3 работни дни.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* FAQ 3 */}
+            <div className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100">
+              <button
+                onClick={() => setOpenFaq(openFaq === 3 ? null : 3)}
+                className="w-full text-left p-6 md:p-8 flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+              >
+                <span className="text-xl md:text-2xl font-bold text-gray-900 pr-8">
+                  В какъв формат е книгата?
+                </span>
+                <span className="text-peach-600 text-2xl flex-shrink-0">
+                  {openFaq === 3 ? '−' : '+'}
+                </span>
+              </button>
+              {openFaq === 3 && (
+                <div className="px-6 md:px-8 pb-6 md:pb-8">
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    Книгата е с твърди корици и пълноцветни страници с високо качество на печат. Размерът е оптимален за малки ръце - приятна за държане и разглеждане. Всяка страница е отпечатана на плътна хартия, устойчива на четене от деца.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* FAQ 4 */}
+            <div className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100">
+              <button
+                onClick={() => setOpenFaq(openFaq === 4 ? null : 4)}
+                className="w-full text-left p-6 md:p-8 flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+              >
+                <span className="text-xl md:text-2xl font-bold text-gray-900 pr-8">
+                  Мога ли да я поръчам като подарък?
+                </span>
+                <span className="text-peach-600 text-2xl flex-shrink-0">
+                  {openFaq === 4 ? '−' : '+'}
+                </span>
+              </button>
+              {openFaq === 4 && (
+                <div className="px-6 md:px-8 pb-6 md:pb-8">
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    Разбира се! Книгата е чудесен подарък за рождени дни, Коледа или всеки друг специален повод. Можете да поръчате няколко екземпляра с отстъпка чрез нашите пакетни оферти. При желание можем да включим и подаръчна опаковка.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* FAQ 5 */}
+            <div className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100">
+              <button
+                onClick={() => setOpenFaq(openFaq === 5 ? null : 5)}
+                className="w-full text-left p-6 md:p-8 flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+              >
+                <span className="text-xl md:text-2xl font-bold text-gray-900 pr-8">
+                  Какъв е начинът на плащане?
+                </span>
+                <span className="text-peach-600 text-2xl flex-shrink-0">
+                  {openFaq === 5 ? '−' : '+'}
+                </span>
+              </button>
+              {openFaq === 5 && (
+                <div className="px-6 md:px-8 pb-6 md:pb-8">
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    Приемаме банков превод и наложен платеж. Всички плащания са сигурни и защитени. След резервация ще получите имейл с инструкции за завършване на поръчката и опциите за плащане.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Reservation Form Section */}
-      <section id="rezervacia" className="py-20 px-4 bg-white">
-        <div className="container mx-auto max-w-2xl">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-purple-900 mb-4">
-              Резервирайте Вашето Копие
-            </h2>
-            <p className="text-xl text-gray-600">
-              Запазете книгата на специална цена и получете първо вашия екземпляр
-            </p>
-          </div>
+      {/* Lead Capture Form Section */}
+      <section id="rezervacia" className="py-20 md:py-32 bg-gradient-to-br from-peach-600 via-coral-600 to-coral-700 relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+        </div>
 
-          {submitted ? (
-            <div className="bg-green-50 border-2 border-green-500 rounded-2xl p-12 text-center">
-              <div className="text-6xl mb-4">✅</div>
-              <h3 className="text-2xl font-bold text-green-900 mb-2">Благодарим!</h3>
-              <p className="text-green-700">Вашата резервация беше получена. Ще се свържем с вас скоро!</p>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="bg-white rounded-3xl shadow-2xl p-10 md:p-16 border border-coral-200">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                Резервирайте Вашето Копие
+              </h2>
+              <p className="text-xl md:text-2xl text-gray-600 leading-relaxed">
+                Запазете книгата на специална цена и получете първо вашия екземпляр
+              </p>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 shadow-lg">
-              <div className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
-                    Вашето име *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-purple-200 focus:border-purple-500 focus:outline-none transition-colors"
-                    placeholder="Иван Петров"
-                  />
-                </div>
 
-                <div>
-                  <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
-                    Вашият имейл *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-purple-200 focus:border-purple-500 focus:outline-none transition-colors"
-                    placeholder="ivan@example.com"
-                  />
-                </div>
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div>
+                <label htmlFor="name" className="block text-base font-semibold text-gray-700 mb-3">
+                  Вашето име *
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full px-6 py-5 rounded-2xl border-2 border-gray-200 focus:border-peach-500 focus:outline-none focus:ring-2 focus:ring-peach-200 text-lg transition-all duration-200"
+                  placeholder="Иван Петров"
+                />
+              </div>
 
-                <div>
-                  <label htmlFor="phone" className="block text-gray-700 font-semibold mb-2">
-                    Телефон (по избор)
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-purple-200 focus:border-purple-500 focus:outline-none transition-colors"
-                    placeholder="+359 888 123 456"
-                  />
-                </div>
+              <div>
+                <label htmlFor="email" className="block text-base font-semibold text-gray-700 mb-3">
+                  Вашият имейл *
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full px-6 py-5 rounded-2xl border-2 border-gray-200 focus:border-peach-500 focus:outline-none focus:ring-2 focus:ring-peach-200 text-lg transition-all duration-200"
+                  placeholder="ivan@example.com"
+                />
+              </div>
 
-                <div className="bg-purple-100 border-l-4 border-purple-500 p-4 rounded">
-                  <div className="flex items-start gap-3">
-                    <span className="text-2xl">🎁</span>
-                    <div>
-                      <h4 className="font-bold text-purple-900 mb-1">Специална Оферта</h4>
-                      <p className="text-sm text-purple-800">
-                        Резервирайте сега и получете ексклузивно PDF с образователни активности за вашето дете
-                      </p>
-                    </div>
+              <div>
+                <label htmlFor="phone" className="block text-base font-semibold text-gray-700 mb-3">
+                  Телефон (по избор)
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full px-6 py-5 rounded-2xl border-2 border-gray-200 focus:border-peach-500 focus:outline-none focus:ring-2 focus:ring-peach-200 text-lg transition-all duration-200"
+                  placeholder="+359 888 123 456"
+                />
+              </div>
+
+              <div className="bg-peach-50 rounded-2xl p-8 border border-peach-100">
+                <div className="flex items-start gap-4">
+                  <span className="text-3xl">🎁</span>
+                  <div>
+                    <p className="font-semibold text-gray-900 mb-2 text-lg">Специална Оферта</p>
+                    <p className="text-gray-600 leading-relaxed">
+                      Резервирайте сега и получете ексклузивно PDF с образователни активности за вашето дете
+                    </p>
                   </div>
                 </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full text-xl font-semibold hover:shadow-lg transition-all transform hover:scale-105"
-                >
-                  Запази Своята Книга 📚
-                </button>
-
-                <p className="text-sm text-gray-600 text-center">
-                  Вашите данни са защитени и няма да бъдат споделяни с трети страни
-                </p>
               </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-peach-600 to-coral-600 text-white text-xl md:text-2xl font-bold py-6 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:from-peach-700 hover:to-coral-700"
+              >
+                {loading ? 'Изпращане...' : 'Запази Своята Книга 📚'}
+              </button>
+
+              <p className="text-center text-sm text-gray-500 leading-relaxed">
+                Вашите данни са защитени и няма да бъдат споделяни с трети страни
+              </p>
             </form>
-          )}
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-purple-900 text-white py-8 px-4">
-        <div className="container mx-auto max-w-6xl text-center">
-          <p className="text-lg mb-2">© 2024 Всички права запазени</p>
-          <p className="text-purple-300">Детска книга за приятелство и взаимопомощ | За деца 3-6 години</p>
+      <footer className="bg-gray-900 text-white py-16 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-gray-400 mb-6 text-lg">
+            © 2024 Всички права запазени
+          </p>
+          <p className="text-gray-500 leading-relaxed">
+            Детска книга за приятелство и взаимопомощ | За деца 3-6 години
+          </p>
         </div>
       </footer>
     </main>
-  );
+  )
 }

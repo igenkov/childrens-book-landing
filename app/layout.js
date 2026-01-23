@@ -1,8 +1,9 @@
-import { Inter } from 'next/font/google'
+import { Nunito } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({ 
+const nunito = Nunito({
   subsets: ['latin', 'cyrillic'],
+  weight: ['400', '600', '700', '800', '900'],
   display: 'swap',
 })
 
@@ -27,7 +28,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="bg">
-      <body className={inter.className}>{children}</body>
+      <body className={nunito.className}>{children}</body>
     </html>
   )
 }
