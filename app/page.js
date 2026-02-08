@@ -126,7 +126,7 @@ export default function Home() {
             <div className="hidden sm:block relative w-32 md:w-48 lg:w-56 flex-shrink-0 transform -rotate-6 hover:rotate-0 transition-transform duration-300">
               <div className="relative aspect-[3/4] rounded-2xl shadow-xl overflow-hidden bg-gray-200">
                 <Image
-                  src="/images/book-cover.jpg"
+                  src="/images/coming-soon-cover-1.jpg"
                   alt="Очаквайте скоро"
                   fill
                   className="object-cover"
@@ -159,7 +159,7 @@ export default function Home() {
             <div className="hidden sm:block relative w-32 md:w-48 lg:w-56 flex-shrink-0 transform rotate-6 hover:rotate-0 transition-transform duration-300">
               <div className="relative aspect-[3/4] rounded-2xl shadow-xl overflow-hidden bg-gray-200">
                 <Image
-                  src="/images/book-cover.jpg"
+                  src="/images/coming-soon-cover-2.jpg"
                   alt="Очаквайте скоро"
                   fill
                   className="object-cover"
