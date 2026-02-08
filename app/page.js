@@ -120,17 +120,58 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Book Cover */}
-          <div className="max-w-lg mx-auto mb-16">
-            <div className="relative aspect-[3/4] rounded-3xl shadow-2xl overflow-hidden bg-gray-100 hover:shadow-3xl transition-shadow duration-300 ring-1 ring-gray-200">
-              <Image
-                src="/images/book-cover.jpg"
-                alt="Корица на книгата"
-                fill
-                className="object-cover"
-                priority
-                unoptimized
-              />
+          {/* Book Covers Carousel */}
+          <div className="flex justify-center items-center gap-4 md:gap-8 mb-16 px-4">
+            {/* Left Book - Coming Soon */}
+            <div className="hidden sm:block relative w-32 md:w-48 lg:w-56 flex-shrink-0 transform -rotate-6 hover:rotate-0 transition-transform duration-300">
+              <div className="relative aspect-[3/4] rounded-2xl shadow-xl overflow-hidden bg-gray-200">
+                <Image
+                  src="/images/book-cover.jpg"
+                  alt="Очаквайте скоро"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                  <span className="text-white text-center font-bold text-sm md:text-lg lg:text-xl px-2">
+                    Очаквайте<br />скоро
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Main Book Cover */}
+            <div className="relative w-64 sm:w-72 md:w-80 lg:w-96 flex-shrink-0 z-10">
+              <div className="relative aspect-[3/4] rounded-3xl shadow-2xl overflow-hidden bg-gray-100 hover:shadow-3xl transition-shadow duration-300 ring-1 ring-gray-200 transform hover:scale-105">
+                <Image
+                  src="/images/book-cover.jpg"
+                  alt="Корица на книгата"
+                  fill
+                  className="object-cover"
+                  priority
+                  unoptimized
+                />
+              </div>
+            </div>
+
+            {/* Right Book - Coming Soon */}
+            <div className="hidden sm:block relative w-32 md:w-48 lg:w-56 flex-shrink-0 transform rotate-6 hover:rotate-0 transition-transform duration-300">
+              <div className="relative aspect-[3/4] rounded-2xl shadow-xl overflow-hidden bg-gray-200">
+                <Image
+                  src="/images/book-cover.jpg"
+                  alt="Очаквайте скоро"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                  <span className="text-white text-center font-bold text-sm md:text-lg lg:text-xl px-2">
+                    Очаквайте<br />скоро
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 
