@@ -72,22 +72,10 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-b from-peach-50 via-sand-50 to-sage-50">
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-16 md:pt-24 pb-20 md:pb-32">
-        {/* Floating Character - Left Side (Desktop) */}
-        <div className="hidden lg:block absolute left-0 top-1/4 w-48 xl:w-64 opacity-90 pointer-events-none">
+        {/* Floating Character - Top Left Corner (Desktop) */}
+        <div className="hidden lg:block absolute left-4 top-4 w-48 xl:w-64 opacity-90 pointer-events-none">
           <Image
             src="/images/character-hero-left.png"
-            alt="Персонаж"
-            width={256}
-            height={256}
-            className="object-contain"
-            unoptimized
-          />
-        </div>
-
-        {/* Floating Character - Right Side (Desktop) */}
-        <div className="hidden lg:block absolute right-0 top-1/3 w-48 xl:w-64 opacity-90 pointer-events-none">
-          <Image
-            src="/images/character-hero-right.png"
             alt="Персонаж"
             width={256}
             height={256}
@@ -285,18 +273,6 @@ export default function Home() {
 
       {/* Book Preview Section */}
       <section className="py-20 md:py-32 bg-gradient-to-b from-peach-50 to-coral-50 relative">
-        {/* Decorative Character - Left */}
-        <div className="hidden md:block absolute left-4 lg:left-10 top-1/3 w-40 lg:w-56 opacity-70 pointer-events-none">
-          <Image
-            src="/images/character-preview-left.png"
-            alt="Персонаж"
-            width={224}
-            height={224}
-            className="object-contain"
-            unoptimized
-          />
-        </div>
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
@@ -600,59 +576,86 @@ export default function Home() {
 
       {/* Social Proof / Testimonials Section */}
       <section className="py-20 md:py-32 bg-white relative">
-        {/* Decorative Character */}
-        <div className="hidden md:block absolute left-8 top-1/2 w-40 opacity-70 pointer-events-none">
-          <Image
-            src="/images/character-testimonials.png"
-            alt="Персонаж"
-            width={160}
-            height={160}
-            className="object-contain"
-            unoptimized
-          />
-        </div>
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-20 leading-tight">
             Какво Казват Родителите
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-8 md:gap-10">
-            <div className="bg-peach-50 rounded-3xl p-10 border border-peach-100 hover:shadow-lg transition-shadow duration-300">
-              <div className="flex gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-yellow-400 text-2xl">⭐</span>
-                ))}
+          <div className="grid md:grid-cols-5 gap-4 md:gap-6">
+            {[
+              {
+                name: "Мария",
+                role: "мама на 4-годишна",
+                quote: "Детето ми обожава тази книга! Всяка вечер иска да я чета отново. Историята е толкова мила и учи на важни ценности.",
+                photo: "/images/review-photo-1.jpg",
+                bgColor: "bg-peach-50",
+                borderColor: "border-peach-100"
+              },
+              {
+                name: "Петър",
+                role: "баща на 5-годишна",
+                quote: "Прекрасна книга с красиви илюстрации. След като я прочетохме, дъщеря ми започна да споделя играчките си с приятелите.",
+                photo: "/images/review-photo-2.png",
+                bgColor: "bg-coral-50",
+                borderColor: "border-coral-100"
+              },
+              {
+                name: "Елена",
+                role: "мама на 6-годишен",
+                quote: "Най-накрая българска детска книга с модерни илюстрации и смислена история! Синът ми я обожава.",
+                photo: "/images/review-photo-3.jpg",
+                bgColor: "bg-sand-50",
+                borderColor: "border-sand-100"
+              },
+              {
+                name: "Иван",
+                role: "баща на 3-годишен",
+                quote: "Купих книгата като подарък и не съжалявам. Синът ми иска да я чете всяка вечер преди лягане.",
+                photo: "/images/review-photo-4.png",
+                bgColor: "bg-sage-50",
+                borderColor: "border-sage-100"
+              },
+              {
+                name: "Анна",
+                role: "мама на 5-годишни близнаци",
+                quote: "И двете ми деца обичат тази книга! Чудесен начин да научат за приятелството и добротата.",
+                photo: "/images/review-photo-5.png",
+                bgColor: "bg-sky-50",
+                borderColor: "border-sky-100"
+              }
+            ].map((testimonial, index) => (
+              <div key={index} className={`${testimonial.bgColor} rounded-2xl p-5 border ${testimonial.borderColor} hover:shadow-lg transition-shadow duration-300`}>
+                {/* Review Photo */}
+                <div className="mb-4 rounded-xl overflow-hidden aspect-[4/3] bg-gray-200">
+                  {testimonial.photo ? (
+                    <Image
+                      src={testimonial.photo}
+                      alt={`Снимка от ${testimonial.name}`}
+                      width={400}
+                      height={300}
+                      className="object-cover w-full h-full"
+                      unoptimized
+                    />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-gray-200 text-gray-400">
+                      <svg className="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span className="text-sm">Няма снимка</span>
+                    </div>
+                  )}
+                </div>
+                <div className="flex gap-1 mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className="text-yellow-400 text-lg">⭐</span>
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-4 leading-relaxed text-sm">
+                  "{testimonial.quote}"
+                </p>
+                <p className="font-semibold text-gray-900 text-sm">{testimonial.name}, {testimonial.role}</p>
               </div>
-              <p className="text-gray-700 mb-8 leading-relaxed text-lg">
-                "Детето ми обожава тази книга! Всяка вечер иска да я чета отново. Историята е толкова мила и учи на важни ценности."
-              </p>
-              <p className="font-semibold text-gray-900 text-lg">Мария, мама на 4-годишна</p>
-            </div>
-
-            <div className="bg-coral-50 rounded-3xl p-10 border border-coral-100 hover:shadow-lg transition-shadow duration-300">
-              <div className="flex gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-yellow-400 text-2xl">⭐</span>
-                ))}
-              </div>
-              <p className="text-gray-700 mb-8 leading-relaxed text-lg">
-                "Прекрасна книга с красиви илюстрации. След като я прочетохме, дъщеря ми започна да споделя играчките си с приятелите."
-              </p>
-              <p className="font-semibold text-gray-900 text-lg">Петър, баща на 5-годишна</p>
-            </div>
-
-            <div className="bg-sand-50 rounded-3xl p-10 border border-sand-100 hover:shadow-lg transition-shadow duration-300">
-              <div className="flex gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-yellow-400 text-2xl">⭐</span>
-                ))}
-              </div>
-              <p className="text-gray-700 mb-8 leading-relaxed text-lg">
-                "Най-накрая българска детска книга с модерни илюстрации и смислена история! Синът ми я обожава."
-              </p>
-              <p className="font-semibold text-gray-900 text-lg">Елена, мама на 6-годишен</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
